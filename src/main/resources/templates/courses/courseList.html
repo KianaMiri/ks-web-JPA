@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/homeButton :: homeButton"/>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>학생명</th>
+            <th>수업명</th>
+            <th>수강가능인원</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="course : ${courses}">
+            <td th:text="${course.id}"></td>
+            <td th:text="${course.student.name}"></td>
+
+            <td th:text="${course.lesson.name}"></td>
+
+            <!-- 인원 -->
+            <td
+                    th:style="${course.lesson.quota} - ${course.lesson.getCourses().size()} == 0 ? 'color: pink;' : 'color: pink;'"
+                    th:text="${course.lesson.quota} - ${course.lesson.getCourses().size()}"></td>
+            <td>
+
+                <a th:href="@{/course/update/{id}(id=${course.id})}"><input type="button" value="Update!"></a>
+
+            </td>
+            <td>
+
+                <form method="post" th:action="@{/course/delete/{id}(id=${course.id})}">
+                    <button type="submit">Delete!</button>
+                    //2번 과제) 수강과목(courseList.html)의 '인원'을 계산해서 화면에 출력하는 기능 추가
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
